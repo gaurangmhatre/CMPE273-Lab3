@@ -1,0 +1,29 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from loginService WSDL service -->
+
+  <service name="login" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ebay"/>
+      <parameter name="wsdlServiceElement" value="loginService"/>
+      <parameter name="schemaQualified" value="http://ebay"/>
+      <parameter name="wsdlServicePort" value="login"/>
+      <parameter name="className" value="ebay.LoginSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="login"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="checkSignUp" qname="operNS:checkSignUp" xmlns:operNS="http://ebay" returnQName="retNS:checkSignUpReturn" xmlns:retNS="http://ebay" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:emailid" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="checkSignUp"/>
+
+  </service>
+</deployment>
