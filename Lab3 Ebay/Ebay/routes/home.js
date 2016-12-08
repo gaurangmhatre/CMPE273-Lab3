@@ -48,6 +48,7 @@ exports.signin = function(req,res){
 	res.render('signin',{validationMessage:'Empty Message'});
 };
 
+//Changed
 exports.checksignup = function(req,res){ //check if email ID is valid or not
 	console.log("In check signup .");
 
@@ -97,17 +98,9 @@ exports.checksignup = function(req,res){ //check if email ID is valid or not
 				else{
 					res.send({statusCode:401});
 				}
-				/* }
-				 else{
-				 res.send({statusCode:401});
-				 }*/
 			});
 		});
-
 	}
-
-
-
 };
 
 
@@ -170,6 +163,7 @@ exports.checksignupWithConnectionPool = function(req,res){ //check if email ID i
 	}
 };
 
+//Changed
 exports.afterSignup = function(req,res){// load new user data in database
 	console.log("In aftersignup");
 
@@ -214,6 +208,7 @@ exports.afterSignup = function(req,res){// load new user data in database
 	}
 };
 
+//not done
 function getAllAuctionResults(){
 	console.log("In GetAllAuction method.");
 
@@ -260,10 +255,11 @@ exports.signout = function(req,res){
 	res.send(json_responses);
 }
 
+//changed
 function addLastLogin(userId) {
 
 	//failing because of userID is EmailId now
-	var msg_payload = {"userId":userId};
+	/*var msg_payload = {"userId":userId};
 	mq_client.make_request('addLastLogin_queue',msg_payload, function(err,results){
 
 		console.log("Hello "+ results);
@@ -281,5 +277,28 @@ function addLastLogin(userId) {
 				res.send("false");
 			}
 		}
-	});
+	});*/
+
+	var args = {"userId":userId};
+	if(userId!='') {
+		//check if email already exists
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		var args = {"userId":userId};
+		soap.createClient(url,option, function(err, client) {
+			client.addLastLogin(args, function(err, result) {
+				console.log("---Result: "+ result);
+				// if(result.validateReturn === true){
+				if(result==200){
+					res.send({statusCode:200});
+				}
+				else{
+					res.send({statusCode:401});
+				}
+			});
+		});
+	}
+
 }

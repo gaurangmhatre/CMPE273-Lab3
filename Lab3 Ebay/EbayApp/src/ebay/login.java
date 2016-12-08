@@ -44,4 +44,23 @@ public class login {
 			return 200;
 		}		
 	}
+	
+	public int addLastLogin(String userId) throws Exception
+	{
+		
+		dbscript db = new dbscript();
+		Connection conn = db.getConnection();
+		String query = "UPDATE user	SET LastLoggedIn = NOW() WHERE UserId = "+userId+";"; 
+		ResultSet rs = db.executeUpdateResults(conn, query);
+		
+		if (rs.getInt("count")==0)
+		{
+			return 401;
+		}else
+		{		
+			return 200;
+		}
+	}
+	
+	
 }
