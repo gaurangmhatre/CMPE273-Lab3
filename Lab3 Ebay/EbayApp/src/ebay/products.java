@@ -59,4 +59,42 @@ public class products {
 	}
 	
 	
+	
+	public int addBidOnProduct(int UserId, int ItemId, int BidAmount) throws Exception
+	{	
+		dbscript db = new dbscript();
+		Connection conn = db.getConnection();
+		 
+		String addBidOnProductQuery = "INSERT INTO bidderlist(BidderId,ItemId,BidAmount,BidTime)VALUES(" + UserId + "," + ItemId + "," + BidAmount + ",NOW());";
+		ResultSet rs = db.executeUpdateResults(conn, addBidOnProductQuery);
+		
+		if (rs.getInt("count")==0)
+		{
+			return 401;
+		}else
+		{		
+			return 200;
+		}
+	}
+
+	public int addProduct(String ItemName, String ItemDescription, int SellerId, int Price, int Qty, int IsBidItem, int Sold ) throws Exception
+	{	
+		dbscript db = new dbscript();
+		Connection conn = db.getConnection();
+		String ItemTypeId = 1; 
+		
+		String insertNewProductQuery = "INSERT INTO item (ItemName,ItemDescription,ItemTypeId,SellerId,Price,Qty,DateAdded,AuctionEndDate,IsBidItem,Sold) VALUES ('"+ItemName+"','"+ItemDescription+"',"+ItemTypeId+","+SellerId+","+Price+","+Qty+",NOW(),date_add(NOW(),INTERVAL 4 DAY),"+IsBidItem+","+Sold+")";
+		ResultSet rs = db.executeUpdateResults(conn, insertNewProductQuery);
+		
+		if (rs.getInt("count")==0)
+		{
+			return 401;
+		}else
+		{		
+			return 200;
+		}
+	}
+	
+	
+	
 }
