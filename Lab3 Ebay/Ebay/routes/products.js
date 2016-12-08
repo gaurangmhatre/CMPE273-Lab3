@@ -136,7 +136,7 @@ exports.userAddToCart = function(req,res){
 
 };
 
-
+//changed
 exports.addBidOnProduct = function(req,res){
 	/*get the product  done
 	* get the userId done
@@ -228,6 +228,7 @@ exports.addBidOnProduct = function(req,res){
 	
 };*/
 
+//changed
 exports.addProduct = function(req,res){
 	console.log("Inside addProduct.");
 	var json_responses="";
