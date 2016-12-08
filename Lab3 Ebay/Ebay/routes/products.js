@@ -25,34 +25,37 @@ exports.getProductsPage = function(req,res){
 		res.render('products',{validationMessage:'Empty Messgage'});
 };
 
+//changed
 exports.getAllProducts = function(req,res){
 	console.log("In getAllProducts.");
 
 	console.log("userId: "+req.session.userid);
 
 	var email = req.session.userid;
-	var msg_payload = {"email":email};
+	//var msg_payload = {"email":email};
 	if(email != undefined ) {
 
 		if(email != undefined) {
-			mq_client.make_request('allProducts_queue',msg_payload, function(err,results){
 
-				console.log(results.json_responses.statusCode);
-				if(err){
-					throw err;
-				}
-				else
-				{
-					if(results.json_responses.statusCode == 200){
-						console.log("Got user Products data for direct sell products");
-						res.send(results.json_responses);
+			var option = {
+				ignoredNamespaces : true
+			};
+			var url = baseURL+"/login?wsdl";
+			var args = {};
+
+			soap.createClient(url,option, function(err, client) {
+				client.getAllProducts(args, function(err, result) {
+					console.log("---Result: "+ result);
+					// if(result.validateReturn === true){
+					if(result==200){
+						res.send({statusCode:200,"results":result.json_responses});
 					}
-					else {
-						console.log("No products data for direct sell products");
-						res.send({"statusCode" : 401});
+					else{
+						res.send({statusCode:401});
 					}
-				}
+				});
 			});
+			
 		}
 		else {
 			//var json_responses = {"statusCode": 401};
@@ -65,86 +68,70 @@ exports.getAllProducts = function(req,res){
 	}
 };
 
+//changed
 exports.getAllProductsForAuction = function(req,res){
 	console.log("In getAllProductsForAuction.");
 
 	console.log("userId: "+req.session.userid);
 
 	var email = req.session.userid;
-	var msg_payload = {"email":email};
+	//var msg_payload = {"email":email};
 	if(email != undefined ) {
-		mq_client.make_request('allProductsForAuction_queue',msg_payload, function(err,results){
-			console.log(results.json_responses.statusCode);
-			if(err){
-				throw err;
-			}
-			else
-			{
-				if(results.json_responses.statusCode == 200){
-					console.log("Got user Products data for auction products.");
-					res.send(results.json_responses);
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		var args = {};
+		soap.createClient(url,option, function(err, client) {
+			client.getAllProductsForAuction(args, function(err, result) {
+				console.log("---Result: "+ result);
+				// if(result.validateReturn === true){
+				if(result==200){
+					res.send({statusCode:200,"results":result.json_responses});
 				}
-				else {
-					console.log("No products data for auction products.");
-					res.send({"statusCode" : 401});
+				else{
+					res.send({statusCode:401});
 				}
-			}
+			});
 		});
 	}
 	else {
 		var json_responses = {"statusCode": 401};
 		res.send(json_responses);
 	}
-
-
 };
 
+//changed
 exports.userAddToCart = function(req,res){
 	console.log("In userAddToCart method.");
-	
-	var Product = req.param("product");
-	var QtyInCart = req.param("qtyInCart");
+
+	var ItemId = req.param("ItemId");
+	var Qty = 	 req.param("Qty");
 	var UserId =  req.session.userid;
+	var args = {"ItemId": ItemId,"Qty": Qty,"UserId":UserId};
+	if(UserId != undefined) {
 
-	var ItemId =  new ObjectId(Product._id);
-	var ItemName  = Product.ItemName
-	var ItemDescription = Product.ItemDescription
-	var Price = Product.Price
-	var QtyAvailable = Product.Qty
-	var DateAdded = Product.DateAdded
-	var Seller = Product.Seller
-	
-	Product.Qty="1";
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
 
-	var msg_payload = {"ItemId":ItemId, "userEmail":UserId ,"QtyInCart": QtyInCart ,"ItemName":ItemName, "ItemDescription":ItemDescription,"Price":Price,"QtyAvailable":QtyAvailable,"DateAdded":DateAdded,"Seller":Seller};
-
-	console.log("Add to cart for: "+UserId+" itemId: "+Product._id+" Qty:"+QtyInCart );
-	logger.log('info', "Add to cart for: "+UserId+" itemId: "+Product._id+" Qty:"+QtyInCart);
-
-
-
-	if(UserId != undefined ) {
-		mq_client.make_request('userAddToCart_queue',msg_payload, function(err,results){
-			console.log(results.json_responses.statusCode);
-			if(err){
-				throw err;
-			}
-			else
-			{
-				if(results.json_responses.statusCode == 200){
-					console.log("Got user cart data  products.");
-					res.send(results.json_responses);
+		soap.createClient(url,option, function(err, client) {
+			client.setAddToCart(args, function(err, result) {
+				console.log("---Result: "+ result);
+				// if(result.validateReturn === true){
+				if(result==200){
+					res.send({"statusCode":200});
 				}
-				else {
-					console.log("No products in cart.");
-					res.send({"statusCode" : 401});
+				else{
+					res.send({"statusCode":401});
 				}
-			}
-		})
+			});
+		});
 	}
 	else {
-		var json_responses = {"statusCode": 401};
-		res.send(json_responses);
+		//var json_responses = {"statusCode": 401};
+		res.send({"statusCode": 401});
 	}
 
 };
