@@ -24,4 +24,9 @@ public class Calculate {
 	{
 		return number1/number2;
 	}
+	
+	public boolean check()
+	{
+		return true;
+	}
 }

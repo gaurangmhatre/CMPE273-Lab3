@@ -7,7 +7,7 @@ var request = require('request')
 describe('http tests  LAB2 : MongoDB and RabbitMQ', function(){
 
 
-    it('should be able to login with correct details', function(done) {
+  /*  it('should be able to login with correct details', function(done) {
         request.post(
             'http://localhost:3000/checklogin',
             { form: { email: 'gaurangmhatre@gmail.com',password:'aabc' } },
@@ -17,7 +17,7 @@ describe('http tests  LAB2 : MongoDB and RabbitMQ', function(){
             }
         );
     });
-    
+  */
     it('Check Email Id exists', function(done) {
         request.post(
             'http://localhost:3000/checksignup',
@@ -29,7 +29,7 @@ describe('http tests  LAB2 : MongoDB and RabbitMQ', function(){
         );
     });
 
-    it('Check Email Id exists with connection Pool', function(done) {
+  /*  it('Check Email Id exists with connection Pool', function(done) {
         request.post(
             'http://localhost:3000/checksignupWithConnectionPool',
             { form: { email: 'gaurangmhatre@gmail.com' } },
@@ -83,7 +83,7 @@ describe('http tests  LAB2 : MongoDB and RabbitMQ', function(){
             }
         );
     });
-
+*/
 });
 
 

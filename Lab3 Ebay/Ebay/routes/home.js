@@ -11,7 +11,7 @@ var mq_client = require('../rpc/client');
 var mongoURL = "mongodb://localhost:27017/ebay";
 //-----------------
 var soap = require('soap');
-var baseURL = "http://localhost:8237/EbayApp/services";
+var baseURL = "http://localhost:8080/EbayApp/services";
 
 
 var logger = new (winston.Logger)({
@@ -78,7 +78,7 @@ exports.checksignup = function(req,res){ //check if email ID is valid or not
 	}*/
 
 	var email = req.param("email");
-	var msg_payload = {"email":email};
+	//var msg_payload = {"email":email};
 
 	if(email!='') {
 		//check if email already exists
@@ -192,40 +192,26 @@ exports.afterSignup = function(req,res){// load new user data in database
 	console.log("creditCardNumber : " + creditCardNumber);
 	console.log("dateOfBirth :: " +dateOfBirth);
 
-	var msg_payload = {"firstname": firstname,"lastname": lastname,"email":email,"password" : password, "contact" : contact,"Address" : Address,"creditCardNumber" : creditCardNumber,"dateOfBirth" :dateOfBirth};
-
+	var args = {"firstname": firstname,"lastname": lastname,"email":email,"password" : password, "contact" : contact,"Address" : Address,"creditCardNumber" : creditCardNumber,"dateOfBirth" :dateOfBirth};
 	if(email!='') {
-		//check if email already exists
-		mq_client.make_request('aftersignup_queue',msg_payload, function(err,results){
-
-			console.log("Hello "+ results);
-			if(err){
-				throw err;
-			}
-			else
-			{
-				if(results.statusCode == 200){
-					console.log("Valid Login.");
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		soap.createClient(url,option, function(err, client) {
+			client.afterSignUp(args, function(err, result) {
+				console.log("---Result: "+ result);
+				// if(result.validateReturn === true){
+				if(result==200){
 					res.send("true");
 				}
-				else {
-					console.log("Invalid Login.");
+				else{
 					res.send("false");
 				}
-			}
+
+			});
 		});
 	}
-
-
-	/*
-        var hash = bcrypt.hashSync(password);
-        logger.log('info', "SignUp for new user: Firstname :: " + firstname+ " Lastname :: " + lastname + " email :: " + email+ " password :: " + hash +" contact :: " + contact +" location : " + location+" dateOfBirth :: " +dateOfBirth+" creditCardNumber : " + creditCardNumber);
-
-        var query = "INSERT INTO user (FirstName, LastName, EmailId, Password, Address, CreditCardNumber,DateOfBirth) VALUES ('" + firstname + "','" + lastname + "','" + email + "','" + hash + "','" + location + "','" + creditCardNumber + "','"+dateOfBirth+"')";
-        console.log("Query:: " + query);
-        logger.log('info', "Query:: " + query);
-    */
-
 };
 
 function getAllAuctionResults(){
