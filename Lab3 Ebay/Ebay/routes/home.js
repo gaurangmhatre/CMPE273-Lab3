@@ -87,7 +87,7 @@ exports.checksignup = function(req,res){ //check if email ID is valid or not
 			ignoredNamespaces : true
 		};
 		var url = baseURL+"/login?wsdl";
-		var args = {emailid: req.param(email)};
+		var args = {emailid:email};
 		soap.createClient(url,option, function(err, client) {
 			client.checkSignUp(args, function(err, result) {
 				console.log("---Result: "+ result);

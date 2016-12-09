@@ -5,6 +5,32 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://ebay" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://sql.java"/>
+   <element name="getAllProductsForAuction">
+    <complexType/>
+   </element>
+   <element name="getAllProductsForAuctionResponse">
+    <complexType>
+     <sequence>
+      <element name="getAllProductsForAuctionReturn" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAddToCart">
+    <complexType>
+     <sequence>
+      <element name="UserId" type="xsd:string"/>
+      <element name="ItemId" type="xsd:string"/>
+      <element name="Qty" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAddToCartResponse">
+    <complexType>
+     <sequence>
+      <element name="setAddToCartReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="addBidOnProduct">
     <complexType>
      <sequence>
@@ -41,39 +67,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="setAddToCart">
-    <complexType>
-     <sequence>
-      <element name="UserId" type="xsd:string"/>
-      <element name="ItemId" type="xsd:string"/>
-      <element name="Qty" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="setAddToCartResponse">
-    <complexType>
-     <sequence>
-      <element name="setAddToCartReturn" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="getAllProducts">
     <complexType/>
    </element>
    <element name="getAllProductsResponse">
     <complexType>
      <sequence>
-      <element name="getAllProductsReturn" type="xsd:anyType"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getAllProductsForAuction">
-    <complexType/>
-   </element>
-   <element name="getAllProductsForAuctionResponse">
-    <complexType>
-     <sequence>
-      <element name="getAllProductsForAuctionReturn" type="tns1:ResultSet"/>
+      <element name="getAllProductsReturn" type="tns1:ResultSet"/>
      </sequence>
     </complexType>
    </element>
@@ -96,17 +96,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="addProductResponse">
+   <wsdl:message name="setAddToCartRequest">
 
-      <wsdl:part element="impl:addProductResponse" name="parameters">
+      <wsdl:part element="impl:setAddToCart" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="setAddToCartRequest">
+   <wsdl:message name="addProductResponse">
 
-      <wsdl:part element="impl:setAddToCart" name="parameters">
+      <wsdl:part element="impl:addProductResponse" name="parameters">
 
       </wsdl:part>
 
@@ -128,14 +128,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="addBidOnProductResponse">
-
-      <wsdl:part element="impl:addBidOnProductResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:message name="setAddToCartResponse">
 
       <wsdl:part element="impl:setAddToCartResponse" name="parameters">
@@ -144,9 +136,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="addBidOnProductRequest">
+   <wsdl:message name="addBidOnProductResponse">
 
-      <wsdl:part element="impl:addBidOnProduct" name="parameters">
+      <wsdl:part element="impl:addBidOnProductResponse" name="parameters">
 
       </wsdl:part>
 
@@ -160,7 +152,39 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="addBidOnProductRequest">
+
+      <wsdl:part element="impl:addBidOnProduct" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:portType name="products">
+
+      <wsdl:operation name="getAllProductsForAuction">
+
+         <wsdl:input message="impl:getAllProductsForAuctionRequest" name="getAllProductsForAuctionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllProductsForAuctionResponse" name="getAllProductsForAuctionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setAddToCart">
+
+         <wsdl:input message="impl:setAddToCartRequest" name="setAddToCartRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setAddToCartResponse" name="setAddToCartResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="addBidOnProduct">
 
@@ -186,18 +210,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="setAddToCart">
-
-         <wsdl:input message="impl:setAddToCartRequest" name="setAddToCartRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:setAddToCartResponse" name="setAddToCartResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="getAllProducts">
 
          <wsdl:input message="impl:getAllProductsRequest" name="getAllProductsRequest">
@@ -210,23 +222,47 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getAllProductsForAuction">
-
-         <wsdl:input message="impl:getAllProductsForAuctionRequest" name="getAllProductsForAuctionRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getAllProductsForAuctionResponse" name="getAllProductsForAuctionResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
    </wsdl:portType>
 
    <wsdl:binding name="productsSoapBinding" type="impl:products">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getAllProductsForAuction">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllProductsForAuctionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllProductsForAuctionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setAddToCart">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setAddToCartRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setAddToCartResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="addBidOnProduct">
 
@@ -264,24 +300,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="setAddToCart">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="setAddToCartRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="setAddToCartResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="getAllProducts">
 
          <wsdlsoap:operation soapAction=""/>
@@ -293,24 +311,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getAllProductsResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getAllProductsForAuction">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getAllProductsForAuctionRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getAllProductsForAuctionResponse">
 
             <wsdlsoap:body use="literal"/>
 

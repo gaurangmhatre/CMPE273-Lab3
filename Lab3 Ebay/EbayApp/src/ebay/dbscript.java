@@ -1,18 +1,17 @@
 package ebay;
 
-import java.sql.Statement;
+import java.sql.*;
+/*import java.sql.Statement;
 import java.sql.ResultSet;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.SQLException;*/
 
 
 public class dbscript {
 
-	//Connection conn = null;
-	String dbName = "ebay";
-	Connection conn;
+/*	Connection conn;
 	public Connection getConnection(){
 		try {
 			DriverManager.getConnection("jdbc:mysql://localhost/ebay?user=root&password=toor");
@@ -33,6 +32,36 @@ public class dbscript {
 			return conn;
 		}
 		
+	}*/
+	
+	private String url = "jdbc:mysql://localhost:3306/ebay";
+	private String user = "root";
+	private String password ="toor";
+	
+	
+	public java.sql.Connection getConnection()
+	{
+	  
+		java.sql.Connection conn=null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); 
+			java.sql.Connection myConn = DriverManager.getConnection(url,user,password);
+			if(myConn !=null)
+			{
+				System.out.println("Connected to the database");
+				conn = myConn;
+			}
+				
+			
+		}
+		catch (Exception e)
+		{
+		  System.out.println("Cannot establish connection");	
+		  e.printStackTrace();
+		}
+		
+		return conn;
+		
 	}
 	
 	public ResultSet executeGetResults(Connection con, String query) throws SQLException {
@@ -42,16 +71,7 @@ public class dbscript {
 		    try {
 		        stmt = con.createStatement();
 		         rs = stmt.executeQuery(query);
-		        /*while (rs.next()) {
-		            String coffeeName = rs.getString("COF_NAME");
-		            int supplierID = rs.getInt("SUP_ID");
-		            float price = rs.getFloat("PRICE");
-		            int sales = rs.getInt("SALES");
-		            int total = rs.getInt("TOTAL");
-		            System.out.println(coffeeName + "\t" + supplierID +
-		                               "\t" + price + "\t" + sales +
-		                               "\t" + total);
-		        }*/
+
 		        return rs;
 		    } catch (SQLException e ) {
 		    	e.printStackTrace();
@@ -60,8 +80,6 @@ public class dbscript {
 		        if (stmt != null) { stmt.close(); }
 		    }
 		}
-	
-	
 	
 	public int executeUpdateResults(Connection con, String query) throws SQLException {
 
@@ -80,8 +98,4 @@ public class dbscript {
 	    }
 	}
 	
-	public static void main(String[] args) {
-		dbscript db = new dbscript();
-		db.getConnection();
-	}
 }
