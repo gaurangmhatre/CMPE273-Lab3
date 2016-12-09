@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
   <ns1:parameter name="sendXsiTypes" value="true"/>
+  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -62,7 +62,19 @@
   <ns1:operation name="checkSignUp" qname="ns5:checkSignUp" returnQName="ns5:checkSignUpReturn" returnType="xsd:int" soapAction="" xmlns:ns5="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns5:emailid" type="xsd:string"/>
   </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="checkSignUp"/>
+  <ns1:operation name="afterSignUp" qname="ns6:afterSignUp" returnQName="ns6:afterSignUpReturn" returnType="xsd:int" soapAction="" xmlns:ns6="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns6:firstname" type="xsd:string"/>
+   <ns1:parameter qname="ns6:lastname" type="xsd:string"/>
+   <ns1:parameter qname="ns6:email" type="xsd:string"/>
+   <ns1:parameter qname="ns6:hash" type="xsd:string"/>
+   <ns1:parameter qname="ns6:location" type="xsd:string"/>
+   <ns1:parameter qname="ns6:creditCardNumber" type="xsd:string"/>
+   <ns1:parameter qname="ns6:dateOfBirth" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="addLastLogin" qname="ns7:addLastLogin" returnQName="ns7:addLastLoginReturn" returnType="xsd:int" soapAction="" xmlns:ns7="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns7:userId" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="checkSignUp afterSignUp addLastLogin"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="login"/>
   <ns1:parameter name="className" value="ebay.login"/>
@@ -70,6 +82,19 @@
   <ns1:parameter name="schemaQualified" value="http://ebay"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://ebay"/>
   <ns1:parameter name="wsdlServiceElement" value="loginService"/>
+ </ns1:service>
+ <ns1:service name="userProfile" provider="java:RPC" style="wrapped" use="literal">
+  <ns1:operation name="getUserAccountDetails" qname="ns8:getUserAccountDetails" returnQName="ns8:getUserAccountDetailsReturn" returnType="xsd:anyType" soapAction="" xmlns:ns8="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns8:userId" type="xsd:int"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="getUserAccountDetails"/>
+  <ns1:parameter name="wsdlPortType" value="userProfile"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
+  <ns1:parameter name="schemaQualified" value="http://ebay"/>
+  <ns1:parameter name="wsdlServicePort" value="userProfile"/>
+  <ns1:parameter name="className" value="ebay.userProfile"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://ebay"/>
+  <ns1:parameter name="wsdlServiceElement" value="userProfileService"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

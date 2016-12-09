@@ -23,7 +23,7 @@ describe('http tests  LAB2 : MongoDB and RabbitMQ', function(){
             'http://localhost:3000/checksignup',
             { form: { email: 'gaurangmhatre@gmail.com'} },
             function (error, response, body) {
-                assert.equal(200, response.statusCode);
+                assert.equal(200, response);
                 done();
             }
         );

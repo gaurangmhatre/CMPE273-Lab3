@@ -1,10 +1,15 @@
 package ebay;
+
+import javax.jws.WebService;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+
+@WebService
 public class products {
 
 	public ResultSet getAllProducts() throws Exception
@@ -47,54 +52,54 @@ public class products {
 		Connection conn = db.getConnection();
 		 
 		String userAddToCartQuery = "INSERT INTO usercart(`UserId`,`ItemId`,`Qty`)VALUES(" + UserId + "," + ItemId + "," + Qty + ");";
-		ResultSet rs = db.executeUpdateResults(conn, userAddToCartQuery);
+		int rs = db.executeUpdateResults(conn, userAddToCartQuery);
 		
-		if (rs.getInt("count")==0)
+		/*if (rs.getInt("count")==0)
 		{
 			return 401;
 		}else
 		{		
 			return 200;
-		}
+		}*/
+		return 200;
 	}
-	
-	
-	
+		
 	public int addBidOnProduct(int UserId, int ItemId, int BidAmount) throws Exception
 	{	
 		dbscript db = new dbscript();
 		Connection conn = db.getConnection();
 		 
 		String addBidOnProductQuery = "INSERT INTO bidderlist(BidderId,ItemId,BidAmount,BidTime)VALUES(" + UserId + "," + ItemId + "," + BidAmount + ",NOW());";
-		ResultSet rs = db.executeUpdateResults(conn, addBidOnProductQuery);
+		int rs = db.executeUpdateResults(conn, addBidOnProductQuery);
 		
-		if (rs.getInt("count")==0)
+		/*if (rs.getInt("count")==0)
 		{
 			return 401;
 		}else
 		{		
 			return 200;
-		}
+		}*/
+		return 200;
 	}
 
 	public int addProduct(String ItemName, String ItemDescription, int SellerId, int Price, int Qty, int IsBidItem, int Sold ) throws Exception
 	{	
 		dbscript db = new dbscript();
 		Connection conn = db.getConnection();
-		String ItemTypeId = 1; 
+		int ItemTypeId = 1; 
 		
 		String insertNewProductQuery = "INSERT INTO item (ItemName,ItemDescription,ItemTypeId,SellerId,Price,Qty,DateAdded,AuctionEndDate,IsBidItem,Sold) VALUES ('"+ItemName+"','"+ItemDescription+"',"+ItemTypeId+","+SellerId+","+Price+","+Qty+",NOW(),date_add(NOW(),INTERVAL 4 DAY),"+IsBidItem+","+Sold+")";
-		ResultSet rs = db.executeUpdateResults(conn, insertNewProductQuery);
+		int rs = db.executeUpdateResults(conn, insertNewProductQuery);
 		
-		if (rs.getInt("count")==0)
+		/*if (rs.getInt("count")==0)
 		{
 			return 401;
 		}else
 		{		
 			return 200;
-		}
+		}*/
+		return 200;
 	}
-	
-	
+
 	
 }

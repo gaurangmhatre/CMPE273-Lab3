@@ -35,30 +35,48 @@ exports.accountdetails = function(req,res){
 
 };
 
+//chnaged
 exports.getUserAccountDetails = function(req,res){
 	
 	console.log("userId: "+req.session.userid);
 	
 	var email = req.session.userid;
-	var msg_payload = {"email":email};
-	if(email != undefined ) {
-		mq_client.make_request('accountDetails_queue',msg_payload, function(err,results){
+	var msg_payload = {"userId":userId};
+	if(userId != undefined ) {
 
-			console.log(results.statusCode);
-			if(err){
-				throw err;
-			}
-			else
-			{
-				if(results.statusCode == 200){
-					console.log("valid Login");
-					res.send(results.json_responses);
+
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		soap.createClient(url,option, function(err, client) {
+			client.getUserAccountDetails(msg_payload, function(err, results) {
+				console.log("---Result: "+ results);
+
+				if(results.length > 0) {
+					console.log("Successful got the user data");
+					console.log("UserId :  " + userId);
+					logger.log('info','Successful got the user data  for userId' + userId);
+
+					json_responses = {"UserId" : results[0].UserId
+						,"FirstName": results[0].FirstName
+						,"LastName": results[0].LastName
+						,"EmailId":results[0].EmailId
+						,"Address":results[0].Address
+						,"CreditCardNumber":results[0].CreditCardNumber
+						,"DateOfBirth":results[0].DateOfBirth
+						,"LastLoggedIn":results[0].LastLoggedIn
+					};
 				}
-				else {
-					console.log("Invalid Login");
-					res.send({"statusCode" : 401});
+				else{
+					res.send(json_responses);
+					console.log('No data retrieved for userId' + userId);
+					logger.log('info','No data retrieved for userId' + userId);
+
+					json_responses = {"statusCode" : 401};
 				}
-			}
+				res.send(json_responses);
+			});
 		});
 	}
 	else {
@@ -67,33 +85,37 @@ exports.getUserAccountDetails = function(req,res){
 	}
 };
 
+//chnaged
 exports.getAllProductsInCart = function(req,res){
 	console.log("inside get All Products from cart for user: "+req.session.userid);
 	
-	var email = req.session.userid;
+	var userid = req.session.userid;
 
-	var msg_payload = {"email":email};
-	if(email != undefined) {
+	var msg_payload = {"userid":userid};
+	if(userid != undefined) {
 
-		mq_client.make_request('getItemFromCart_queue',msg_payload, function(err,results){
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		soap.createClient(url,option, function(err, client) {
+			client.getAllProductsInCart(msg_payload, function(err, results) {
+				console.log("---Result: "+ results);
 
-			console.log(results.statusCode);
-			if(err){
-				throw err;
-			}
-			else
-			{
-				if(results.json_responses.statusCode == 200){
-					console.log("Got art Items.");
+				if(results.length > 0) {
+					console.log("items in the cart.");
 					res.send(results.json_responses);
 				}
-				else {
-					console.log("No items in cart");
-					res.send({"statusCode" : 401});
-				}
-			}
-		});
+				else{
+					res.send(json_responses);
+					console.log('No data retrieved for userId' + userid);
 
+
+					json_responses = {"statusCode" : 401};
+				}
+				res.send(json_responses);
+			});
+		});
 	}
 };
 
@@ -102,18 +124,40 @@ exports.getAllProductsInCart = function(req,res){
 *db.users.remove({'EmailId':"tim@gmail.com",'UserCart.ItemName':"Moto G 3",'UserCart.Qty':"3"},{ 'UserCart.ItemName':1  })
 *
 * */
-
+//chnaged
 exports.removeItemFromCart = function(req,res){
 	console.log("Inside removeItemFromCart for user: "+req.session.userid);
 	
-	var emailId = req.session.userid;
+	var userid = req.session.userid;
 	var item = req.param("item");
-	var msg_payload= {"emailId":emailId,"itemName":item.ItemName};
+	var msg_payload= {"userid":userid,"itemName":item.ItemName};
 
 
-	if(emailId != undefined) {
+	if(userid != undefined) {
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		soap.createClient(url,option, function(err, client) {
+			client.getAllProductsInCart(msg_payload, function(err, results) {
+				console.log("---Result: "+ results);
 
-		mq_client.make_request('removeItemFromCart_queue',msg_payload, function(err,results){
+				if(results > 0) {
+					console.log("items in the cart.");
+					res.send(results.json_responses);
+				}
+				else{
+					res.send(json_responses);
+					console.log('No data retrieved for userId' + userid);
+
+
+					json_responses = {"statusCode" : 401};
+				}
+				res.send(json_responses);
+			});
+		});
+
+		/*mq_client.make_request('removeItemFromCart_queue',msg_payload, function(err,results){
 
 			console.log(results.statusCode);
 			if(err){
@@ -129,19 +173,43 @@ exports.removeItemFromCart = function(req,res){
 					res.send({"statusCode" : 401});
 				}
 			}
-		});
+		});*/
 	}
 };
 
+//chnaged
 exports.buyItemsInCart = function(req,res){
 
 	var userId = req.session.userid;
-	var msg_payload= {"userId":userId};
 	var creditCardNumber = req.param("CreditCardNumber");
+	var msg_payload= {"userId":userId ,"creditCardNumber":creditCardNumber};
+
 
 	if(userId != undefined) {
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/login?wsdl";
+		soap.createClient(url,option, function(err, client) {
+			client.buyItemsInCart(msg_payload, function(err, results) {
+				console.log("---Result: "+ results);
 
-		mq_client.make_request('buyItemsInCart_queue',msg_payload, function(err,results){
+				if(results > 0) {
+					console.log("items bought.");
+					res.send(results.json_responses);
+				}
+				else{
+					res.send(json_responses);
+					console.log('No data retrieved for userId' + userid);
+
+
+					json_responses = {"statusCode" : 401};
+				}
+				res.send(json_responses);
+			});
+		});
+
+		/*mq_client.make_request('buyItemsInCart_queue',msg_payload, function(err,results){
 
 			console.log(results.statusCode);
 			if(err){
@@ -157,7 +225,7 @@ exports.buyItemsInCart = function(req,res){
 					res.send({"statusCode" : 401});
 				}
 			}
-		});
+		});*/
     }
 
 }
@@ -354,6 +422,8 @@ function UpdateItemStatusToSold(ItemId) {
 		}
 	});
 }
+
+
 
 exports.getAllWonAuctions= function(req,res){
 	console.log("inside getAllWonAuctions for user: "+req.session.userid);

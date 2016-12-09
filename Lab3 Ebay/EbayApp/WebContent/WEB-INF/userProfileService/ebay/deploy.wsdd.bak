@@ -1,0 +1,29 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from userProfileService WSDL service -->
+
+  <service name="userProfile" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ebay"/>
+      <parameter name="wsdlServiceElement" value="userProfileService"/>
+      <parameter name="schemaQualified" value="http://ebay"/>
+      <parameter name="wsdlServicePort" value="userProfile"/>
+      <parameter name="className" value="ebay.UserProfileSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="userProfile"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getUserAccountDetails" qname="operNS:getUserAccountDetails" xmlns:operNS="http://ebay" returnQName="retNS:getUserAccountDetailsReturn" xmlns:retNS="http://ebay" returnType="rtns:anyType" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:userId" xmlns:pns="http://ebay" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="getUserAccountDetails"/>
+
+  </service>
+</deployment>

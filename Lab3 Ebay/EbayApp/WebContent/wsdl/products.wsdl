@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ebay" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ebay" xmlns:intf="http://ebay" xmlns:tns1="http://sql.java" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://ebay" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://sql.java"/>
+   <element name="addBidOnProduct">
+    <complexType>
+     <sequence>
+      <element name="UserId" type="xsd:int"/>
+      <element name="ItemId" type="xsd:int"/>
+      <element name="BidAmount" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addBidOnProductResponse">
+    <complexType>
+     <sequence>
+      <element name="addBidOnProductReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addProduct">
+    <complexType>
+     <sequence>
+      <element name="ItemName" type="xsd:string"/>
+      <element name="ItemDescription" type="xsd:string"/>
+      <element name="SellerId" type="xsd:int"/>
+      <element name="Price" type="xsd:int"/>
+      <element name="Qty" type="xsd:int"/>
+      <element name="IsBidItem" type="xsd:int"/>
+      <element name="Sold" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addProductResponse">
+    <complexType>
+     <sequence>
+      <element name="addProductReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAddToCart">
+    <complexType>
+     <sequence>
+      <element name="UserId" type="xsd:string"/>
+      <element name="ItemId" type="xsd:string"/>
+      <element name="Qty" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAddToCartResponse">
+    <complexType>
+     <sequence>
+      <element name="setAddToCartReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAllProducts">
+    <complexType/>
+   </element>
+   <element name="getAllProductsResponse">
+    <complexType>
+     <sequence>
+      <element name="getAllProductsReturn" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAllProductsForAuction">
+    <complexType/>
+   </element>
+   <element name="getAllProductsForAuctionResponse">
+    <complexType>
+     <sequence>
+      <element name="getAllProductsForAuctionReturn" type="tns1:ResultSet"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getAllProductsResponse">
+
+      <wsdl:part element="impl:getAllProductsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllProductsRequest">
+
+      <wsdl:part element="impl:getAllProducts" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addProductResponse">
+
+      <wsdl:part element="impl:addProductResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setAddToCartRequest">
+
+      <wsdl:part element="impl:setAddToCart" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllProductsForAuctionResponse">
+
+      <wsdl:part element="impl:getAllProductsForAuctionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addProductRequest">
+
+      <wsdl:part element="impl:addProduct" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addBidOnProductResponse">
+
+      <wsdl:part element="impl:addBidOnProductResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setAddToCartResponse">
+
+      <wsdl:part element="impl:setAddToCartResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addBidOnProductRequest">
+
+      <wsdl:part element="impl:addBidOnProduct" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllProductsForAuctionRequest">
+
+      <wsdl:part element="impl:getAllProductsForAuction" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="products">
+
+      <wsdl:operation name="addBidOnProduct">
+
+         <wsdl:input message="impl:addBidOnProductRequest" name="addBidOnProductRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addBidOnProductResponse" name="addBidOnProductResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addProduct">
+
+         <wsdl:input message="impl:addProductRequest" name="addProductRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addProductResponse" name="addProductResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setAddToCart">
+
+         <wsdl:input message="impl:setAddToCartRequest" name="setAddToCartRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setAddToCartResponse" name="setAddToCartResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllProducts">
+
+         <wsdl:input message="impl:getAllProductsRequest" name="getAllProductsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllProductsResponse" name="getAllProductsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllProductsForAuction">
+
+         <wsdl:input message="impl:getAllProductsForAuctionRequest" name="getAllProductsForAuctionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllProductsForAuctionResponse" name="getAllProductsForAuctionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="productsSoapBinding" type="impl:products">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="addBidOnProduct">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addBidOnProductRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addBidOnProductResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addProduct">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addProductRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addProductResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setAddToCart">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setAddToCartRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setAddToCartResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllProducts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllProductsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllProductsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllProductsForAuction">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllProductsForAuctionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllProductsForAuctionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="productsService">
+
+      <wsdl:port binding="impl:productsSoapBinding" name="products">
+
+         <wsdlsoap:address location="http://localhost:8080/EbayApp/services/products"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

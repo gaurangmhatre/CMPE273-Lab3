@@ -1,7 +1,7 @@
 package ebay;
 
 
-//import javax.jws.WebService;
+import javax.jws.WebService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -34,15 +34,16 @@ public class login {
 		 
 		String query = "INSERT INTO user (FirstName, LastName, EmailId, Password, Address, CreditCardNumber,DateOfBirth) VALUES ('" + firstname + "','" + lastname + "','" + email + "','" + hash + "','" + location + "','" + creditCardNumber + "','"+dateOfBirth+"')";
 		
-		ResultSet rs = db.executeUpdateResults(conn, query);
-		
+		int rs = db.executeUpdateResults(conn, query);
+		/*
 		if (rs.getInt("count")==0)
 		{
 			return 401;
 		}else
 		{		
 			return 200;
-		}		
+		}	*/
+		return 200;
 	}
 	
 	public int addLastLogin(String userId) throws Exception
@@ -51,15 +52,16 @@ public class login {
 		dbscript db = new dbscript();
 		Connection conn = db.getConnection();
 		String query = "UPDATE user	SET LastLoggedIn = NOW() WHERE UserId = "+userId+";"; 
-		ResultSet rs = db.executeUpdateResults(conn, query);
+		int rs = db.executeUpdateResults(conn, query);
 		
-		if (rs.getInt("count")==0)
+		/*if (rs.getInt("count")==0)
 		{
 			return 401;
 		}else
 		{		
 			return 200;
-		}
+		}*/
+		return 200;
 	}
 	
 	

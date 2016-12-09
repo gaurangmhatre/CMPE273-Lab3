@@ -23,7 +23,19 @@
       <operation name="checkSignUp" qname="operNS:checkSignUp" xmlns:operNS="http://ebay" returnQName="retNS:checkSignUpReturn" xmlns:retNS="http://ebay" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:emailid" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <parameter name="allowedMethods" value="checkSignUp"/>
+      <operation name="afterSignUp" qname="operNS:afterSignUp" xmlns:operNS="http://ebay" returnQName="retNS:afterSignUpReturn" xmlns:retNS="http://ebay" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:firstname" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:lastname" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:email" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:hash" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:location" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:creditCardNumber" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:dateOfBirth" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="addLastLogin" qname="operNS:addLastLogin" xmlns:operNS="http://ebay" returnQName="retNS:addLastLoginReturn" xmlns:retNS="http://ebay" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:userId" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="checkSignUp afterSignUp addLastLogin"/>
 
   </service>
 </deployment>
